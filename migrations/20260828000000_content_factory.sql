@@ -140,21 +140,6 @@ CREATE TABLE IF NOT EXISTS public.llm_provider_keys (
   created_at timestamptz NOT NULL DEFAULT now()
 );
 
-CREATE TABLE IF NOT EXISTS public.llm_call_logs (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  request_id uuid REFERENCES public.content_requests(id) ON DELETE SET NULL,
-  draft_id uuid REFERENCES public.content_drafts(id) ON DELETE SET NULL,
-  provider_slug text NOT NULL,
-  model_id text NOT NULL,
-  key_hash text,
-  prompt_tokens int,
-  completion_tokens int,
-  latency_ms int,
-  http_status int,
-  error text,
-  created_at timestamptz NOT NULL DEFAULT now()
-);
-
 ------------------------------------------------------------
 -- Content requests
 ------------------------------------------------------------
@@ -212,6 +197,22 @@ CREATE TABLE IF NOT EXISTS public.rate_limits (
   window_start timestamptz NOT NULL DEFAULT now(),
   count int NOT NULL DEFAULT 0,
   PRIMARY KEY (ip, scope)
+);
+
+-- llm_call_logs after content tables (FKs now exist)
+CREATE TABLE IF NOT EXISTS public.llm_call_logs (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  request_id uuid REFERENCES public.content_requests(id) ON DELETE SET NULL,
+  draft_id uuid REFERENCES public.content_drafts(id) ON DELETE SET NULL,
+  provider_slug text NOT NULL,
+  model_id text NOT NULL,
+  key_hash text,
+  prompt_tokens int,
+  completion_tokens int,
+  latency_ms int,
+  http_status int,
+  error text,
+  created_at timestamptz NOT NULL DEFAULT now()
 );
 
 ------------------------------------------------------------
