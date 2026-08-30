@@ -2,12 +2,12 @@
 # Project is created in the Supabase Dashboard; `project_id` is filled in after
 # `supabase link`. The CLI reads this file from the submodule root.
 
-project_id = "REPLACE_AFTER_SUPABASE_LINK"
+project_id = "hljjmmejmirqikmbaryl"
 
 [api]
 enabled = true
 port = 54321
-schemas = ["public"]
+schemas = ["public", "vault"]
 extra_search_path = ["public", "extensions"]
 max_rows = 1000
 
@@ -28,8 +28,21 @@ port = 54323
 
 [auth]
 enabled = true
-site_url = "http://localhost:3000"
-additional_redirect_urls = ["http://localhost:3000/id", "http://localhost:3000/en"]
+site_url = "https://asharu.id"
+additional_redirect_urls = [
+  "https://asharu.id/id",
+  "https://asharu.id/en",
+  "https://asharu.id/id/masuk",
+  "https://asharu.id/en/sign-in",
+  "https://asharu.id/id/auth/exchange",
+  "https://asharu.id/api/auth/callback",
+  "http://localhost:3000/id",
+  "http://localhost:3000/en",
+  "http://localhost:3000/id/masuk",
+  "http://localhost:3000/en/sign-in",
+  "http://localhost:3000/id/auth/exchange",
+  "http://localhost:3000/api/auth/callback"
+]
 jwt_expiry = 3600
 enable_signup = false  # Admin invites only; admin emails are seeded in 001_content_factory.sql
 
