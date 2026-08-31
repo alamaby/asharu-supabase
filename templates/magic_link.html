@@ -6,12 +6,19 @@
          arrives at the app as ?code=<pkce>, which requires the code_verifier
          cookie and is fragile across domain/cookie-attribute mismatches.
          Embedding {{ .TokenHash }} + {{ .Type }} lets the app call verifyOtp
-         directly — no PKCE cookie dependency. The destination path must be in
-         the Dashboard Auth → Redirect URLs allow-list. -->
+         directly — no PKCE cookie dependency.
+
+         Base URL: {{ .RedirectTo }} (the redirect_to the app passes to
+         signInWithOtp — a full URL like https://asharu.id/id/auth/exchange,
+         resolved from NEXT_PUBLIC_SITE_URL so it auto-adapts dev/prod). This
+         is intentionally NOT {{ .SiteURL }}: that resolves to the Dashboard
+         "Site URL" setting, which defaults to http://localhost:3000 and must
+         be configured separately. {{ .RedirectTo }} is app-controlled and is
+         validated by GoTrue against the Dashboard Redirect URLs allow-list. -->
     <h2 style="color:#0f172a;">Masuk ke Asharu</h2>
     <p style="color:#334155;">Klik tombol berikut untuk masuk (tautan berlaku 1 jam):</p>
     <p>
-      <a href="{{ .SiteURL }}/id/auth/exchange?token_hash={{ .TokenHash }}&amp;type={{ .Type }}" style="display:inline-block; background:#075985; color:#ffffff; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
+      <a href="{{ .RedirectTo }}?token_hash={{ .TokenHash }}&amp;type={{ .Type }}" style="display:inline-block; background:#075985; color:#ffffff; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:bold;">
         Masuk ke Asharu
       </a>
     </p>
